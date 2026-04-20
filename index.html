@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIA2 — Class Modifications Vote | Craik et al. (1996)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+  :root {
+    --navy:#1C3557; --teal:#2A7F7F; --teal-lt:#4AACAC; --amber:#E67E22;
+    --amber-lt:#F5A623; --green:#1E8449; --purple:#6C3483;
+    --off-w:#F4F7FA; --text:#1A1A2E; --muted:#5D6D7E;
+    --card-border:#E2E8F0; --shadow:rgba(28,53,87,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--off-w);color:var(--text);min-height:100vh;}
+
+  /* HEADER */
+  .top-stripe{height:5px;background:linear-gradient(90deg,var(--teal),var(--teal-lt),var(--amber));}
+  header{background:var(--navy);padding:2.2rem 2.5rem 2rem;}
+  .header-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+  .badges{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.8rem;}
+  .badge{font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .65rem;border-radius:3px;}
+  .b-teal  {background:rgba(42,127,127,.25);color:var(--teal-lt);border:1px solid var(--teal);}
+  .b-amber {background:rgba(230,126,34,.2);color:var(--amber-lt);border:1px solid var(--amber);}
+  .b-purple{background:rgba(108,52,131,.25);color:#C39BD3;border:1px solid var(--purple);}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.55rem,3.5vw,2.3rem);color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  header h1 em{color:var(--teal-lt);}
+  .sub-txt{color:rgba(255,255,255,.62);font-size:.88rem;line-height:1.65;max-width:600px;}
+  .sub-txt strong{color:var(--teal-lt);}
+  .live-pill{display:inline-flex;align-items:center;gap:.45rem;background:rgba(230,126,34,.15);border:1.5px solid var(--amber);color:var(--amber-lt);font-size:.73rem;font-weight:600;padding:.35rem .9rem;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+  .dot{width:8px;height:8px;background:var(--amber);border-radius:50%;animation:blink 1.4s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* STUDY SUMMARY STRIP */
+  .study-strip{margin:1.4rem 2rem 0;background:var(--navy);border-radius:10px;padding:1.1rem 1.6rem;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0 1.2rem;box-shadow:0 2px 10px var(--shadow);}
+  .sc h4{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-lt);margin-bottom:.35rem;}
+  .sc p{font-size:.81rem;color:rgba(255,255,255,.78);line-height:1.52;}
+  .sc p strong{color:#fff;}
+  .sdiv{background:rgba(255,255,255,.1);}
+
+  /* INSTRUCTION BOX */
+  .instr{margin:1.1rem 2rem;background:#fff;border-radius:10px;border-left:5px solid var(--teal);padding:1rem 1.4rem;box-shadow:0 2px 8px var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:0 1rem;align-items:start;}
+  .instr-icon{font-size:1.6rem;padding-top:.1rem;}
+  .instr h3{font-size:.86rem;font-weight:700;color:var(--teal);margin-bottom:.25rem;}
+  .instr p{font-size:.82rem;color:var(--muted);line-height:1.55;}
+  .instr p strong{color:var(--text);}
+
+  /* SECTION LABEL */
+  .sec-label{margin:1.6rem 2rem .85rem;display:flex;align-items:center;gap:.7rem;}
+  .sec-label span{font-size:.73rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+  .sec-label::after{content:'';flex:1;height:1px;background:var(--card-border);}
+
+  /* VOTING GRID — 3 columns on wide, 1 on mobile */
+  .vote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;padding:0 2rem;}
+
+  /* CARD */
+  .card{background:#fff;border-radius:14px;border:2px solid var(--card-border);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s;position:relative;overflow:hidden;}
+  .card:hover{transform:translateY(-4px);box-shadow:0 10px 30px var(--shadow);}
+  .card.voted{border-color:var(--amber);}
+  .card.voted .card-accent{opacity:1;}
+  .ctop{height:5px;}
+
+  /* number badge */
+  .mod-num{position:absolute;top:.9rem;left:1.1rem;width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff;}
+
+  /* type pill */
+  .type-pill{position:absolute;top:.9rem;right:.9rem;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .52rem;border-radius:3px;}
+  .tp-extend  {background:#EDF9F0;color:var(--green);border:1px solid #A9DFBF;}
+  .tp-redirect{background:#F5EEF8;color:var(--purple);border:1px solid #C39BD3;}
+
+  .card-body{padding:1.4rem 1.2rem .8rem;flex:1;margin-top:.5rem;}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--navy);line-height:1.3;margin-bottom:.6rem;padding-right:.5rem;}
+  .card .desc{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:.85rem;}
+
+  /* detail rows */
+  .detail-rows{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.4rem;}
+  .drow{display:grid;grid-template-columns:90px 1fr;gap:.4rem;align-items:baseline;}
+  .dlabel{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+  .dval{font-size:.82rem;color:var(--text);line-height:1.45;}
+  .dval em{font-style:normal;font-weight:600;}
+
+  /* winner ribbon */
+  .ribbon{display:none;background:var(--amber);color:#fff;font-size:.65rem;font-weight:800;letter-spacing:.07em;padding:.2rem .65rem;border-radius:3px;margin-bottom:.55rem;width:fit-content;}
+
+  /* CARD FOOTER */
+  .card-foot{padding:.85rem 1.2rem;border-top:1px solid #F0F4F8;display:flex;align-items:center;gap:.75rem;}
+  .vbtn{flex:1;padding:.58rem .7rem;border:2px solid var(--teal);background:#fff;color:var(--teal);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;border-radius:9px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+  .vbtn:hover{background:#EDF7F7;}
+  .vbtn.on{background:var(--amber);border-color:var(--amber);color:#fff;}
+  .vbtn.on:hover{background:#c9681a;border-color:#c9681a;}
+  .vcnt{font-size:.8rem;font-weight:700;color:var(--muted);min-width:52px;text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:.2rem;}
+  .vcnt.lit{color:var(--amber);}
+  .vnum{font-family:'Playfair Display',serif;font-size:1.2rem;}
+
+  /* RESULTS */
+  .results{margin:1.8rem 2rem .5rem;background:#fff;border-radius:10px;border:1.5px solid var(--card-border);padding:1.3rem 1.6rem;box-shadow:0 2px 8px var(--shadow);}
+  .rtitle{font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1.1rem;}
+  .rrow{display:flex;align-items:center;gap:.85rem;margin-bottom:.65rem;}
+  .rlabel{font-size:.82rem;font-weight:600;color:var(--text);width:200px;flex-shrink:0;}
+  .rbar-wrap{flex:1;background:#EDF2F7;border-radius:20px;height:10px;overflow:hidden;}
+  .rbar{height:100%;border-radius:20px;transition:width .5s ease;}
+  .rpct{font-weight:700;font-size:.82rem;min-width:36px;text-align:right;}
+  .rtotal{font-size:.78rem;color:var(--muted);margin-top:.7rem;}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:rgba(255,255,255,.45);text-align:center;font-size:.75rem;padding:1.1rem 2rem;margin-top:1.5rem;}
+  footer strong{color:var(--teal-lt);}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--green);color:#fff;padding:.72rem 1.5rem;border-radius:9px;font-size:.88rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .3s;z-index:999;pointer-events:none;}
+  #toast.show{transform:translateX(-50%) translateY(0);}
+
+  @media(max-width:800px){
+    .vote-grid{grid-template-columns:1fr;}
+    .study-strip{grid-template-columns:1fr;}
+    .sdiv{display:none;}
+    header,.vote-grid,.study-strip,.instr,.results,.sec-label{padding-left:1rem;padding-right:1rem;margin-left:0;margin-right:0;}
+    .vote-grid{padding:0 1rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-stripe"></div>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="badges">
+        <span class="badge b-teal">Psychology Unit 1 &amp; 2</span>
+        <span class="badge b-amber">FIA2 · Checkpoint Three · Forming</span>
+        <span class="badge b-purple">Cairns School of Distance Education</span>
+      </div>
+      <h1>Class Modification Vote<br><em>Craik et al. (1996) — Divided Attention &amp; Memory</em></h1>
+      <p class="sub-txt">Your class will run the experiment <strong>together</strong> using one shared modification so your data can be pooled. Read all three options carefully, then cast your vote below.</p>
+    </div>
+    <div class="live-pill"><div class="dot"></div>Voting open</div>
+  </div>
+</header>
+
+<div class="study-strip">
+  <div class="sc">
+    <h4>The original experiment</h4>
+    <p><strong>Craik, Govoni, Naveh-Benjamin &amp; Anderson (1996)</strong> found that divided attention during <strong>encoding</strong> causes greater memory impairment than during retrieval.</p>
+  </div>
+  <div class="sdiv"></div>
+  <div class="sc">
+    <h4>Three conditions (class prac)</h4>
+    <p><strong>Control</strong> — full attention<br>
+    <strong>Encoding distraction</strong> — reaction task while hearing words<br>
+    <strong>Retrieval distraction</strong> — reaction task while recalling</p>
+  </div>
+  <div class="sdiv"></div>
+  <div class="sc">
+    <h4>What you are doing</h4>
+    <p>You are <strong>modifying</strong> this experiment — refining, extending or redirecting it to address your own related hypothesis. The class agrees on one shared change.</p>
+  </div>
+</div>
+
+<div class="instr">
+  <div class="instr-icon">🗳️</div>
+  <div>
+    <h3>How this works</h3>
+    <p>Read each modification card. Click <strong>"Vote"</strong> on your favourite. You can change your mind before your teacher closes the vote and announces the class modification. <strong>Everyone then uses that modification</strong> in their individual Checkpoint Three methodology.</p>
+  </div>
+</div>
+
+<div class="sec-label"><span>Three modification options — choose one</span></div>
+
+<div class="vote-grid">
+
+  <!-- ── CARD 1: WORD EMOTIONALITY ─────────────────────── -->
+  <div class="card" id="card-0">
+    <div class="ctop" style="background:var(--teal);"></div>
+    <div class="mod-num" style="background:var(--teal);">1</div>
+    <div class="type-pill tp-extend">Extend</div>
+    <div class="card-body">
+      <div class="ribbon" id="ribbon-0">👑 Currently leading</div>
+      <h2>Does the emotional content of words affect how much divided attention hurts memory?</h2>
+      <p class="desc">Replace the standard word list with two matched lists — one of <strong>emotionally charged words</strong> (e.g. grief, danger, love, terror) and one of <strong>emotionally neutral words</strong> (e.g. table, pencil, window, folder). All three attention conditions are kept. Compare recall across word types.</p>
+      <div class="detail-rows">
+        <div class="drow"><span class="dlabel">New IV</span><span class="dval"><em>Word emotionality</em> — emotional vs neutral word list</span></div>
+        <div class="drow"><span class="dlabel">DV (kept)</span><span class="dval">Words recalled out of list total; reaction time (seconds)</span></div>
+        <div class="drow"><span class="dlabel">Prediction</span><span class="dval">Emotional words will be recalled significantly better than neutral words under all divided attention conditions</span></div>
+        <div class="drow"><span class="dlabel">Theory</span><span class="dval">The amygdala enhances consolidation of emotionally salient memories — emotional arousal boosts encoding even under cognitive load (Cahill &amp; McGaugh, 1995)</span></div>
+        <div class="drow"><span class="dlabel">Feasibility</span><span class="dval">✅ Easy — two word lists prepared in advance; same procedure as class prac</span></div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <button class="vbtn" id="btn-0" onclick="vote(0)">👍 Vote for this</button>
+      <div class="vcnt" id="cnt-0"><span class="vnum">0</span>&nbsp;votes</div>
+    </div>
+  </div>
+
+  <!-- ── CARD 2: SECONDARY TASK TYPE ──────────────────── -->
+  <div class="card" id="card-1">
+    <div class="ctop" style="background:var(--purple);"></div>
+    <div class="mod-num" style="background:var(--purple);">2</div>
+    <div class="type-pill tp-extend">Extend</div>
+    <div class="card-body">
+      <div class="ribbon" id="ribbon-1">👑 Currently leading</div>
+      <h2>Does same-modality distraction cause more memory interference than cross-modality distraction?</h2>
+      <p class="desc">Keep the word list and three attention conditions, but compare <strong>two different secondary tasks</strong>: one group performs an <strong>auditory task</strong> (respond when you hear a target tone) and another performs a <strong>visual task</strong> (press a key when a shape changes on screen). Which disrupts auditory word memory more?</p>
+      <div class="detail-rows">
+        <div class="drow"><span class="dlabel">New IV</span><span class="dval"><em>Secondary task modality</em> — auditory vs visual reaction task</span></div>
+        <div class="drow"><span class="dlabel">DV (kept)</span><span class="dval">Words recalled; reaction time on the secondary task (seconds)</span></div>
+        <div class="drow"><span class="dlabel">Prediction</span><span class="dval">An auditory secondary task will cause greater memory impairment than a visual task when words are presented auditorily — same-modality tasks compete for the same cognitive resource</span></div>
+        <div class="drow"><span class="dlabel">Theory</span><span class="dval">Baddeley's Working Memory Model — the phonological loop handles auditory information; two auditory tasks compete for the same limited resource, causing greater interference</span></div>
+        <div class="drow"><span class="dlabel">Feasibility</span><span class="dval">✅ Manageable — auditory tone apps and visual shape-change tasks both free online; requires some preparation of two secondary task versions</span></div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <button class="vbtn" id="btn-1" onclick="vote(1)">👍 Vote for this</button>
+      <div class="vcnt" id="cnt-1"><span class="vnum">0</span>&nbsp;votes</div>
+    </div>
+  </div>
+
+  <!-- ── CARD 3: RECALL TYPE ───────────────────────────── -->
+  <div class="card" id="card-2">
+    <div class="ctop" style="background:var(--amber);"></div>
+    <div class="mod-num" style="background:var(--amber);">3</div>
+    <div class="type-pill tp-redirect">Redirect</div>
+    <div class="card-body">
+      <div class="ribbon" id="ribbon-2">👑 Currently leading</div>
+      <h2>Does divided attention disrupt free recall more than recognition memory?</h2>
+      <p class="desc">Keep all three attention conditions, but change how memory is tested. Half the class uses <strong>free recall</strong> (write down every word you can remember) and the other half uses a <strong>recognition task</strong> (circle the words you saw from a list of 30, where 15 are targets and 15 are distractors). Compare how much divided attention impairs each test type.</p>
+      <div class="detail-rows">
+        <div class="drow"><span class="dlabel">New IV</span><span class="dval"><em>Memory test type</em> — free recall vs recognition</span></div>
+        <div class="drow"><span class="dlabel">DV</span><span class="dval">Free recall: words correctly recalled; Recognition: hits minus false alarms</span></div>
+        <div class="drow"><span class="dlabel">Prediction</span><span class="dval">Free recall will show a larger divided attention impairment than recognition — because free recall requires effortful, controlled retrieval, while recognition is more automatic and cue-supported</span></div>
+        <div class="drow"><span class="dlabel">Theory</span><span class="dval">Controlled vs automatic processes (Lesson 7.2) — free recall is a controlled process requiring selective attention; recognition can draw on automatic familiarity signals that are less disrupted by a secondary task</span></div>
+        <div class="drow"><span class="dlabel">Feasibility</span><span class="dval">✅ Very easy — recognition sheet prepared in advance; same word list; straightforward scoring</span></div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <button class="vbtn" id="btn-2" onclick="vote(2)">👍 Vote for this</button>
+      <div class="vcnt" id="cnt-2"><span class="vnum">0</span>&nbsp;votes</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIVE RESULTS -->
+<div class="results">
+  <div class="rtitle">📊 Live results</div>
+  <div id="rbar-wrap"></div>
+  <p class="rtotal" id="rtotal">No votes yet — be the first!</p>
+</div>
+
+<footer>
+  <strong>Psychology FIA2 · Checkpoint Three · Forming</strong> &nbsp;·&nbsp;
+  Craik et al. (1996) Modification Vote &nbsp;·&nbsp;
+  Cairns School of Distance Education
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const N = 3;
+const LABELS  = ["Modification 1: Word Emotionality", "Modification 2: Secondary Task Type", "Modification 3: Recall vs Recognition"];
+const COLORS  = ["var(--teal)", "var(--purple)", "var(--amber)"];
+
+let votes  = JSON.parse(sessionStorage.getItem('craik3_votes') || '[0,0,0]');
+let myVote = JSON.parse(sessionStorage.getItem('craik3_mine')  || 'null');
+
+function save() {
+  sessionStorage.setItem('craik3_votes', JSON.stringify(votes));
+  sessionStorage.setItem('craik3_mine',  JSON.stringify(myVote));
+}
+
+function vote(i) {
+  if (myVote === i) {
+    votes[i] = Math.max(0, votes[i] - 1);
+    myVote = null;
+    toast('Vote removed');
+  } else {
+    if (myVote !== null) votes[myVote] = Math.max(0, votes[myVote] - 1);
+    votes[i]++;
+    myVote = i;
+    toast('✓ Vote recorded!');
+  }
+  save();
+  render();
+}
+
+function render() {
+  const total = votes.reduce((a, b) => a + b, 0);
+  const maxV  = Math.max(...votes, 1);
+
+  for (let i = 0; i < N; i++) {
+    const isMe   = myVote === i;
+    const isLead = votes[i] === maxV && votes[i] > 0;
+
+    document.getElementById('card-' + i).classList.toggle('voted', isMe);
+    const btn = document.getElementById('btn-' + i);
+    btn.classList.toggle('on', isMe);
+    btn.textContent = isMe ? '✓ Your vote' : '👍 Vote for this';
+
+    const cnt = document.getElementById('cnt-' + i);
+    cnt.innerHTML = '<span class="vnum">' + votes[i] + '</span>&nbsp;vote' + (votes[i] !== 1 ? 's' : '');
+    cnt.classList.toggle('lit', votes[i] > 0);
+
+    document.getElementById('ribbon-' + i).style.display = isLead ? 'block' : 'none';
+  }
+
+  // bars
+  const wrap = document.getElementById('rbar-wrap');
+  wrap.innerHTML = LABELS.map((lbl, i) => {
+    const pct = total > 0 ? Math.round(votes[i] / total * 100) : 0;
+    const w   = total > 0 ? (votes[i] / maxV * 100) : 0;
+    return `<div class="rrow">
+      <div class="rlabel">${lbl}</div>
+      <div class="rbar-wrap"><div class="rbar" style="width:${w}%;background:${COLORS[i]}"></div></div>
+      <div class="rpct" style="color:${COLORS[i]}">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('rtotal').textContent =
+    total === 0
+      ? 'No votes yet — be the first!'
+      : `${total} vote${total !== 1 ? 's' : ''} cast so far. Your teacher will announce the winning modification.`;
+}
+
+let tt;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(tt);
+  tt = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+render();
+</script>
+</body>
+</html>
